@@ -1,10 +1,10 @@
-package controller;
+package ku.vc.controller;
 import javax.swing.JFrame;
 
-import view.VolumeConvertorUI;
-import net.webservicex.VolumeUnit;
-import net.webservicex.Volumes;
-import net.webservicex.VolumeUnitSoap;
+import ku.vc.service.VolumeUnit;
+import ku.vc.service.VolumeUnitSoap;
+import ku.vc.service.Volumes;
+import ku.vc.view.VolumeConvertorUI;
 
 /**
  * 

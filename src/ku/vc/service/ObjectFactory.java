@@ -1,5 +1,5 @@
 
-package net.webservicex;
+package ku.vc.service;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElementDecl;

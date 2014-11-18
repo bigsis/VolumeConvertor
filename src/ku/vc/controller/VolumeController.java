@@ -1,8 +1,8 @@
-package controller;
+package ku.vc.controller;
 
-import net.webservicex.VolumeUnit;
-import net.webservicex.VolumeUnitSoap;
-import net.webservicex.Volumes;
+import ku.vc.service.VolumeUnit;
+import ku.vc.service.VolumeUnitSoap;
+import ku.vc.service.Volumes;
 
 /**
  * 
@@ -17,8 +17,8 @@ public class VolumeController {
 	 * Contructor
 	 */
 	public VolumeController() {
-		factory =  new VolumeUnit();
-		volumeUnitSoap = factory.getVolumeUnitSoap();
+		
+		
 	}
 	
 	/**
@@ -29,6 +29,13 @@ public class VolumeController {
 	 */
 	public Double convert( Double input, Volumes from, Volumes to){
 		return volumeUnitSoap.changeVolumeUnit(input, from, to);
+	}
+	
+	public void initSoap(){
+		if( factory == null ){
+			factory =  new VolumeUnit();
+		}
+		volumeUnitSoap = factory.getVolumeUnitSoap(); 
 	}
 
 }

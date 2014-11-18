@@ -1,21 +1,24 @@
-package view;
+package ku.vc.view;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import net.webservicex.VolumeUnitSoap;
-import net.webservicex.Volumes;
-import controller.ConvertWorker;
-import controller.VolumeController;
+import ku.vc.controller.ConvertWorker;
+import ku.vc.controller.VolumeController;
+import ku.vc.service.Volumes;
 
 /**
  * 
@@ -49,6 +52,14 @@ public class VolumeConvertorUI extends JFrame {
 	
 	/** Convertor button*/
 	private JButton btnConvert;
+	
+	
+	private JPanel panelN,panelC,panelS;
+	
+	
+	private JLabel imageLabel;
+	
+	private Icon imageIcon;
 	
 	private GroupLayout groupLayout;
 	
@@ -94,24 +105,46 @@ public class VolumeConvertorUI extends JFrame {
 		
 		lblOutput = new JLabel("Output");
 		
+		imageLabel = new JLabel();
+		
+		imageIcon = new ImageIcon(this.getClass().getResource("ajax-loader.gif"));
+		
 		btnConvert = new JButton("Convert!");
 		
 		btnConvert.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				cw = new ConvertWorker(vc, outField);
-				cw.set(Double.parseDouble(inField.getText()), (Volumes)comFrom.getSelectedItem(), (Volumes)comTo.getSelectedItem());
+				cw = new ConvertWorker(vc, outField, imageLabel);
+				try {
+					cw.set(Double.parseDouble(inField.getText()), (Volumes)comFrom.getSelectedItem(), (Volumes)comTo.getSelectedItem());
+				}catch (NumberFormatException ex) {
+					JOptionPane.showMessageDialog(new JFrame(),
+						    "Please enter the number",
+						    "Warning",
+						    JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+				
+				
+				
 				cw.execute();
+				imageLabel.setIcon(imageIcon);
 			}
 		});
 		groupLayout = new GroupLayout(getContentPane());
+	}
+	
+	public void addComponentToFrame()
+	{
+//		add(panelN,new BorderLayout);
 	}
 	
 	/**
 	 * method to set the position of component
 	 */
 	public void setPosition(){
+		imageLabel.setPreferredSize(new Dimension(7, 7));
 		groupLayout.setHorizontalGroup(
 				groupLayout.createParallelGroup(Alignment.LEADING)
 					.addGroup(groupLayout.createSequentialGroup()
@@ -135,7 +168,9 @@ public class VolumeConvertorUI extends JFrame {
 					.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
 						.addContainerGap(163, Short.MAX_VALUE)
 						.addComponent(btnConvert, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
+						
 						.addGap(145))
+						.addComponent(imageLabel)
 			);
 			groupLayout.setVerticalGroup(
 				groupLayout.createParallelGroup(Alignment.TRAILING)
@@ -154,11 +189,13 @@ public class VolumeConvertorUI extends JFrame {
 							.addComponent(lblTo))
 						.addGap(16)
 						.addComponent(btnConvert)
+						
 						.addPreferredGap(ComponentPlacement.UNRELATED)
 						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 							.addComponent(outField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addComponent(lblOutput))
 						.addContainerGap())
+					.addComponent(imageLabel)	
 			);
 			getContentPane().setLayout(groupLayout);
 	}

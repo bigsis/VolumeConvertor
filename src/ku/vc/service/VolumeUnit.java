@@ -1,5 +1,5 @@
 
-package net.webservicex;
+package ku.vc.service;
 
 import java.net.MalformedURLException;
 import java.net.URL;
